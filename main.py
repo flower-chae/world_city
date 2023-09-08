@@ -12,7 +12,10 @@ for index, row in df.iterrows():
     pattern_str = row['ExpectedReRef']
 
     # 패턴에 \b를 추가하여 단어 경계를 지정
-    pattern_str = r'\b' + pattern_str + r'\b'
+    # dallas를 검색하니 dallas의 la를 보고 로스앤젤레스가 나와 추가
+
+    pattern_str = r'\b' + pattern_str + r'\b' # 이 패턴은 `New York` 라는 도시 이름이 정확히 일치하는 경우만 매치 `New York City` 같은건 불일치
+    # pattern_str = r'\b' + pattern_str.replace(' ', r'\s*') + r'\b' #요건 `New York City` 같은것도 일치
 
     
     pattern = re.compile(pattern_str, re.IGNORECASE)
@@ -30,6 +33,14 @@ while True:
         break
 
     matched = False
+
+    # 입력된 도시 이름을 띄어쓰기를 제거한 문자열로 변환하여 검색
+    sanitized_input = user_input.replace(' ', '')
+    for expected, pattern in pattern_dict.items():
+        if pattern.search(sanitized_input):
+            user_input = expected
+            matched = True
+            break
 
     # 입력된 도시 이름을 대응하는 패턴으로 변환
     for expected, pattern in pattern_dict.items():
