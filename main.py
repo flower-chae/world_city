@@ -34,6 +34,15 @@ while True:
 
     matched = False
 
+    # 입력된 도시 이름을 띄어쓰기를 제거한 문자열로 변환하여 검색
+    # 로스 앤젤레스 같이 띄어쓰기 해결로직
+    sanitized_input = user_input.replace(' ', '')
+    for expected, pattern in pattern_dict.items():
+        if pattern.search(sanitized_input):
+            user_input = expected
+            matched = True
+            break
+
     # 입력된 도시 이름을 대응하는 패턴으로 변환
     for expected, pattern in pattern_dict.items():
         if pattern.search(user_input):
